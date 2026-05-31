@@ -1,0 +1,1507 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "7ea1cf74-ad86-455d-8c9c-b27e1462282b",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Notebook Working\n"
+     ]
+    }
+   ],
+   "source": [
+    "import pandas as pd\n",
+    "import numpy as np\n",
+    "\n",
+    "print(\"Notebook Working\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "3c15a8af-e166-4915-868d-b64954f38033",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>customerID</th>\n",
+       "      <th>gender</th>\n",
+       "      <th>SeniorCitizen</th>\n",
+       "      <th>Partner</th>\n",
+       "      <th>Dependents</th>\n",
+       "      <th>tenure</th>\n",
+       "      <th>PhoneService</th>\n",
+       "      <th>MultipleLines</th>\n",
+       "      <th>InternetService</th>\n",
+       "      <th>OnlineSecurity</th>\n",
+       "      <th>...</th>\n",
+       "      <th>DeviceProtection</th>\n",
+       "      <th>TechSupport</th>\n",
+       "      <th>StreamingTV</th>\n",
+       "      <th>StreamingMovies</th>\n",
+       "      <th>Contract</th>\n",
+       "      <th>PaperlessBilling</th>\n",
+       "      <th>PaymentMethod</th>\n",
+       "      <th>MonthlyCharges</th>\n",
+       "      <th>TotalCharges</th>\n",
+       "      <th>Churn</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>7590-VHVEG</td>\n",
+       "      <td>Female</td>\n",
+       "      <td>0</td>\n",
+       "      <td>Yes</td>\n",
+       "      <td>No</td>\n",
+       "      <td>1</td>\n",
+       "      <td>No</td>\n",
+       "      <td>No phone service</td>\n",
+       "      <td>DSL</td>\n",
+       "      <td>No</td>\n",
+       "      <td>...</td>\n",
+       "      <td>No</td>\n",
+       "      <td>No</td>\n",
+       "      <td>No</td>\n",
+       "      <td>No</td>\n",
+       "      <td>Month-to-month</td>\n",
+       "      <td>Yes</td>\n",
+       "      <td>Electronic check</td>\n",
+       "      <td>29.85</td>\n",
+       "      <td>29.85</td>\n",
+       "      <td>No</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>5575-GNVDE</td>\n",
+       "      <td>Male</td>\n",
+       "      <td>0</td>\n",
+       "      <td>No</td>\n",
+       "      <td>No</td>\n",
+       "      <td>34</td>\n",
+       "      <td>Yes</td>\n",
+       "      <td>No</td>\n",
+       "      <td>DSL</td>\n",
+       "      <td>Yes</td>\n",
+       "      <td>...</td>\n",
+       "      <td>Yes</td>\n",
+       "      <td>No</td>\n",
+       "      <td>No</td>\n",
+       "      <td>No</td>\n",
+       "      <td>One year</td>\n",
+       "      <td>No</td>\n",
+       "      <td>Mailed check</td>\n",
+       "      <td>56.95</td>\n",
+       "      <td>1889.5</td>\n",
+       "      <td>No</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>3668-QPYBK</td>\n",
+       "      <td>Male</td>\n",
+       "      <td>0</td>\n",
+       "      <td>No</td>\n",
+       "      <td>No</td>\n",
+       "      <td>2</td>\n",
+       "      <td>Yes</td>\n",
+       "      <td>No</td>\n",
+       "      <td>DSL</td>\n",
+       "      <td>Yes</td>\n",
+       "      <td>...</td>\n",
+       "      <td>No</td>\n",
+       "      <td>No</td>\n",
+       "      <td>No</td>\n",
+       "      <td>No</td>\n",
+       "      <td>Month-to-month</td>\n",
+       "      <td>Yes</td>\n",
+       "      <td>Mailed check</td>\n",
+       "      <td>53.85</td>\n",
+       "      <td>108.15</td>\n",
+       "      <td>Yes</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>7795-CFOCW</td>\n",
+       "      <td>Male</td>\n",
+       "      <td>0</td>\n",
+       "      <td>No</td>\n",
+       "      <td>No</td>\n",
+       "      <td>45</td>\n",
+       "      <td>No</td>\n",
+       "      <td>No phone service</td>\n",
+       "      <td>DSL</td>\n",
+       "      <td>Yes</td>\n",
+       "      <td>...</td>\n",
+       "      <td>Yes</td>\n",
+       "      <td>Yes</td>\n",
+       "      <td>No</td>\n",
+       "      <td>No</td>\n",
+       "      <td>One year</td>\n",
+       "      <td>No</td>\n",
+       "      <td>Bank transfer (automatic)</td>\n",
+       "      <td>42.30</td>\n",
+       "      <td>1840.75</td>\n",
+       "      <td>No</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>9237-HQITU</td>\n",
+       "      <td>Female</td>\n",
+       "      <td>0</td>\n",
+       "      <td>No</td>\n",
+       "      <td>No</td>\n",
+       "      <td>2</td>\n",
+       "      <td>Yes</td>\n",
+       "      <td>No</td>\n",
+       "      <td>Fiber optic</td>\n",
+       "      <td>No</td>\n",
+       "      <td>...</td>\n",
+       "      <td>No</td>\n",
+       "      <td>No</td>\n",
+       "      <td>No</td>\n",
+       "      <td>No</td>\n",
+       "      <td>Month-to-month</td>\n",
+       "      <td>Yes</td>\n",
+       "      <td>Electronic check</td>\n",
+       "      <td>70.70</td>\n",
+       "      <td>151.65</td>\n",
+       "      <td>Yes</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "<p>5 rows × 21 columns</p>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   customerID  gender  SeniorCitizen Partner Dependents  tenure PhoneService  \\\n",
+       "0  7590-VHVEG  Female              0     Yes         No       1           No   \n",
+       "1  5575-GNVDE    Male              0      No         No      34          Yes   \n",
+       "2  3668-QPYBK    Male              0      No         No       2          Yes   \n",
+       "3  7795-CFOCW    Male              0      No         No      45           No   \n",
+       "4  9237-HQITU  Female              0      No         No       2          Yes   \n",
+       "\n",
+       "      MultipleLines InternetService OnlineSecurity  ... DeviceProtection  \\\n",
+       "0  No phone service             DSL             No  ...               No   \n",
+       "1                No             DSL            Yes  ...              Yes   \n",
+       "2                No             DSL            Yes  ...               No   \n",
+       "3  No phone service             DSL            Yes  ...              Yes   \n",
+       "4                No     Fiber optic             No  ...               No   \n",
+       "\n",
+       "  TechSupport StreamingTV StreamingMovies        Contract PaperlessBilling  \\\n",
+       "0          No          No              No  Month-to-month              Yes   \n",
+       "1          No          No              No        One year               No   \n",
+       "2          No          No              No  Month-to-month              Yes   \n",
+       "3         Yes          No              No        One year               No   \n",
+       "4          No          No              No  Month-to-month              Yes   \n",
+       "\n",
+       "               PaymentMethod MonthlyCharges  TotalCharges Churn  \n",
+       "0           Electronic check          29.85         29.85    No  \n",
+       "1               Mailed check          56.95        1889.5    No  \n",
+       "2               Mailed check          53.85        108.15   Yes  \n",
+       "3  Bank transfer (automatic)          42.30       1840.75    No  \n",
+       "4           Electronic check          70.70        151.65   Yes  \n",
+       "\n",
+       "[5 rows x 21 columns]"
+      ]
+     },
+     "execution_count": 2,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df = pd.read_csv(\"../data/data.csv\")\n",
+    "\n",
+    "df.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "0ab0d634-0f03-4646-942c-c9f607af78cb",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(7043, 21)"
+      ]
+     },
+     "execution_count": 3,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.shape"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "5d9f6eb2-8cff-43b2-a421-3c45ecb13987",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df[\"TotalCharges\"] = df[\"TotalCharges\"].replace(\" \", 0)\n",
+    "df[\"TotalCharges\"] = pd.to_numeric(df[\"TotalCharges\"])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "0ae0f826-f368-4308-82a8-bb69d22bc2b0",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df[\"customerID\"].nunique()\n",
+    "df.drop(\"customerID\", axis=1, inplace=True)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "60e59f66-ec3f-4373-9321-bf3b407a3dc5",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "Index(['gender', 'SeniorCitizen', 'Partner', 'Dependents', 'tenure',\n",
+       "       'PhoneService', 'MultipleLines', 'InternetService', 'OnlineSecurity',\n",
+       "       'OnlineBackup', 'DeviceProtection', 'TechSupport', 'StreamingTV',\n",
+       "       'StreamingMovies', 'Contract', 'PaperlessBilling', 'PaymentMethod',\n",
+       "       'MonthlyCharges', 'TotalCharges', 'Churn'],\n",
+       "      dtype='str')"
+      ]
+     },
+     "execution_count": 6,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.columns"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "25c94430-bf9e-4f84-a66e-61203bc7b446",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "==================================================\n",
+      "Column: gender\n",
+      "Unique Count: 2\n",
+      "<StringArray>\n",
+      "['Female', 'Male']\n",
+      "Length: 2, dtype: str\n",
+      "\n",
+      "==================================================\n",
+      "Column: SeniorCitizen\n",
+      "Unique Count: 2\n",
+      "[0 1]\n",
+      "\n",
+      "==================================================\n",
+      "Column: Partner\n",
+      "Unique Count: 2\n",
+      "<StringArray>\n",
+      "['Yes', 'No']\n",
+      "Length: 2, dtype: str\n",
+      "\n",
+      "==================================================\n",
+      "Column: Dependents\n",
+      "Unique Count: 2\n",
+      "<StringArray>\n",
+      "['No', 'Yes']\n",
+      "Length: 2, dtype: str\n",
+      "\n",
+      "==================================================\n",
+      "Column: tenure\n",
+      "Unique Count: 73\n",
+      "[ 1 34  2 45  8 22 10 28 62 13 16 58 49 25 69 52 71 21 12 30 47 72 17 27\n",
+      "  5 46 11 70 63 43 15 60 18 66  9  3 31 50 64 56  7 42 35 48 29 65 38 68\n",
+      " 32 55 37 36 41  6  4 33 67 23 57 61 14 20 53 40 59 24 44 19 54 51 26  0\n",
+      " 39]\n",
+      "\n",
+      "==================================================\n",
+      "Column: PhoneService\n",
+      "Unique Count: 2\n",
+      "<StringArray>\n",
+      "['No', 'Yes']\n",
+      "Length: 2, dtype: str\n",
+      "\n",
+      "==================================================\n",
+      "Column: MultipleLines\n",
+      "Unique Count: 3\n",
+      "<StringArray>\n",
+      "['No phone service', 'No', 'Yes']\n",
+      "Length: 3, dtype: str\n",
+      "\n",
+      "==================================================\n",
+      "Column: InternetService\n",
+      "Unique Count: 3\n",
+      "<StringArray>\n",
+      "['DSL', 'Fiber optic', 'No']\n",
+      "Length: 3, dtype: str\n",
+      "\n",
+      "==================================================\n",
+      "Column: OnlineSecurity\n",
+      "Unique Count: 3\n",
+      "<StringArray>\n",
+      "['No', 'Yes', 'No internet service']\n",
+      "Length: 3, dtype: str\n",
+      "\n",
+      "==================================================\n",
+      "Column: OnlineBackup\n",
+      "Unique Count: 3\n",
+      "<StringArray>\n",
+      "['Yes', 'No', 'No internet service']\n",
+      "Length: 3, dtype: str\n",
+      "\n",
+      "==================================================\n",
+      "Column: DeviceProtection\n",
+      "Unique Count: 3\n",
+      "<StringArray>\n",
+      "['No', 'Yes', 'No internet service']\n",
+      "Length: 3, dtype: str\n",
+      "\n",
+      "==================================================\n",
+      "Column: TechSupport\n",
+      "Unique Count: 3\n",
+      "<StringArray>\n",
+      "['No', 'Yes', 'No internet service']\n",
+      "Length: 3, dtype: str\n",
+      "\n",
+      "==================================================\n",
+      "Column: StreamingTV\n",
+      "Unique Count: 3\n",
+      "<StringArray>\n",
+      "['No', 'Yes', 'No internet service']\n",
+      "Length: 3, dtype: str\n",
+      "\n",
+      "==================================================\n",
+      "Column: StreamingMovies\n",
+      "Unique Count: 3\n",
+      "<StringArray>\n",
+      "['No', 'Yes', 'No internet service']\n",
+      "Length: 3, dtype: str\n",
+      "\n",
+      "==================================================\n",
+      "Column: Contract\n",
+      "Unique Count: 3\n",
+      "<StringArray>\n",
+      "['Month-to-month', 'One year', 'Two year']\n",
+      "Length: 3, dtype: str\n",
+      "\n",
+      "==================================================\n",
+      "Column: PaperlessBilling\n",
+      "Unique Count: 2\n",
+      "<StringArray>\n",
+      "['Yes', 'No']\n",
+      "Length: 2, dtype: str\n",
+      "\n",
+      "==================================================\n",
+      "Column: PaymentMethod\n",
+      "Unique Count: 4\n",
+      "<StringArray>\n",
+      "[         'Electronic check',              'Mailed check',\n",
+      " 'Bank transfer (automatic)',   'Credit card (automatic)']\n",
+      "Length: 4, dtype: str\n",
+      "\n",
+      "==================================================\n",
+      "Column: MonthlyCharges\n",
+      "Unique Count: 1585\n",
+      "[29.85 56.95 53.85 ... 63.1  44.2  78.7 ]\n",
+      "\n",
+      "==================================================\n",
+      "Column: TotalCharges\n",
+      "Unique Count: 6531\n",
+      "[  29.85 1889.5   108.15 ...  346.45  306.6  6844.5 ]\n",
+      "\n",
+      "==================================================\n",
+      "Column: Churn\n",
+      "Unique Count: 2\n",
+      "<StringArray>\n",
+      "['No', 'Yes']\n",
+      "Length: 2, dtype: str\n"
+     ]
+    }
+   ],
+   "source": [
+    "for col in df.columns:\n",
+    "    print(f\"\\n{'='*50}\")\n",
+    "    print(f\"Column: {col}\")\n",
+    "    print(f\"Unique Count: {df[col].nunique()}\")\n",
+    "    print(df[col].unique())"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "id": "0c3dc0b9-cbd5-4d7b-8300-a138a2897154",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "gender\n",
+      "<StringArray>\n",
+      "['Female', 'Male']\n",
+      "Length: 2, dtype: str\n",
+      "\n",
+      "Partner\n",
+      "<StringArray>\n",
+      "['Yes', 'No']\n",
+      "Length: 2, dtype: str\n",
+      "\n",
+      "Dependents\n",
+      "<StringArray>\n",
+      "['No', 'Yes']\n",
+      "Length: 2, dtype: str\n",
+      "\n",
+      "PhoneService\n",
+      "<StringArray>\n",
+      "['No', 'Yes']\n",
+      "Length: 2, dtype: str\n",
+      "\n",
+      "PaperlessBilling\n",
+      "<StringArray>\n",
+      "['Yes', 'No']\n",
+      "Length: 2, dtype: str\n",
+      "\n",
+      "Churn\n",
+      "<StringArray>\n",
+      "['No', 'Yes']\n",
+      "Length: 2, dtype: str\n"
+     ]
+    }
+   ],
+   "source": [
+    "binary_cols = [\n",
+    "    \"gender\",\n",
+    "    \"Partner\",\n",
+    "    \"Dependents\",\n",
+    "    \"PhoneService\",\n",
+    "    \"PaperlessBilling\",\n",
+    "    \"Churn\"\n",
+    "]\n",
+    "\n",
+    "for col in binary_cols:\n",
+    "    print(f\"\\n{col}\")\n",
+    "    print(df[col].unique())"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "id": "b6874cb9-cada-4ba1-b432-ccc5db9f28ce",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Index(['SeniorCitizen', 'tenure', 'MonthlyCharges', 'TotalCharges'], dtype='str')\n"
+     ]
+    }
+   ],
+   "source": [
+    "num_cols = df.select_dtypes(include=['int64', 'float64']).columns\n",
+    "\n",
+    "print(num_cols)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "id": "a9fd4e4e-6532-46df-96fa-12c40278ff2e",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "np.float64(0.2395397495619829)"
+      ]
+     },
+     "execution_count": 10,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# df[\"tenure\"].describe()\n",
+    "df[\"tenure\"].skew()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "id": "282bec4f-ea25-467d-bfdd-98a31fff0b66",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "image/png": "iVBORw0KGgoAAAANSUhEUgAAAkQAAAHHCAYAAABeLEexAAAAOnRFWHRTb2Z0d2FyZQBNYXRwbG90bGliIHZlcnNpb24zLjEwLjksIGh0dHBzOi8vbWF0cGxvdGxpYi5vcmcvJkbTWQAAAAlwSFlzAAAPYQAAD2EBqD+naQAAMU9JREFUeJzt3Qd0VGX+//FvCgk1hJrAUoICQmgKKCJYECQgckBYK2BQFhRBqbKwK6CABtFFQZFYqD9wQVxRhAVB6tKr0ntVSnAxhLIESO7/fJ//mTkzISBgwpTn/TrnOrklc+8zM2Y+PO2GOI7jCAAAgMVCfX0BAAAAvkYgAgAA1iMQAQAA6xGIAACA9QhEAADAegQiAABgPQIRAACwHoEIAABYj0AEAACsRyACYKW4uDjp2LFjrp/n4MGDEhISIhMnTnRv0/MWLFhQbhU9/xtvvHHLzgcEIgIREET0i+96liVLlkgweeihh9xlCw0NlaioKLnjjjukQ4cOsmDBghw7z7///W+/DRb+fG1AIAj39QUAyDn/93//57U+efJkEwiybq9atWrQvexlypSRpKQk8/O5c+dk79698vXXX8uUKVPkySefNI958uRxH79r1y4Tnm40dIwZM+aGgkf58uXlf//7n9e5c8O1rk3PHx7On3vgWvg/BAgi7du391pfvXq1CURZt/sLvbf0hQsXJF++fH/4uQoXLnxFOYcPHy6vvvqqfPzxx6aJ7J133nHvi4yMlNx0+fJlyczMlIiICMmbN6/4kq/PDwQCmswAy+iX9AcffCDVqlUzX5QxMTHy4osvym+//eZ1nAaIxx57TJYvXy733HOPOfa2224ztU6etEZCm6qy0j4zul370GR9zu+//17q1q1rgtAnn3xi9qWmpkrPnj2lbNmyJqxUrFjRBBi93psVFhYmo0ePlvj4ePnoo4/k9OnTV+1DdOnSJXnzzTelUqVKpqzFihWThg0bupvc9FitgVGezY+e/YTee+8989refvvtpgzbt2/Ptg+Ry/79+yUhIUEKFCggpUuXliFDhpiQ6KJNm9k1cWZ9zmtdm2tb1pqjTZs2SfPmzU3zovZnaty4sQnQ2b2HK1askN69e0uJEiXMtT7++ONy8uTJm3pPAH9FDRFgGQ0/+kX3/PPPm9qTAwcOmLCgX5D6xefZtKPNTn/+85+lU6dOkpiYKOPHjzdfvnXq1DGB6mZoU9UzzzxjrqNz586mr8/58+flwQcflF9++cVsL1eunKxcuVIGDBggx44dMyHjj4QiPd/AgQNNuGvRokW2x2lg0Ca3v/zlLyYApqWlyfr162Xjxo3yyCOPmOs6evRotk2QLhMmTDA1Xl26dDGBqGjRolcNdBkZGdKsWTO59957ZcSIETJv3jwZPHiwqVnSYHQjrufaPG3btk3uv/9+E4b69etn3nMNptoXa+nSpVKvXj2v41955RUpUqSIuT4NY/p+dO/eXaZPn35D1wn4NQdA0OrWrZtWN7jX//Of/5j1qVOneh03b968K7aXL1/ebFu2bJl7W0pKihMZGen06dPHvW3w4MFe53CZMGGC2X7gwIErnlPP52no0KFOgQIFnN27d3tt79+/vxMWFuYcPnz4muV88MEHnWrVql11/8yZM815R40a5XUtiYmJ7vVatWo5LVq0uKHX00XLqNujoqLMa5TdPn09XPS8uu2VV15xb8vMzDTnj4iIcE6ePGm2LV682Bynj7/3nFe7NqXb9X1yad26tTnPvn373NuOHj3qFCpUyHnggQeueA+bNGlirs+lV69e5n1JTU295usFBBKazACLzJgxw/S10RqPX3/91b1ojY82myxevNjreG1q0poEF20y0Rodbeq5WRUqVDDNRFmvS8+jtRCe19WkSRNTk7Js2TL5I1xD3M+cOXPVY6Kjo03NyZ49e276PG3btjWv0fXSWhYXbZrS9YsXL8oPP/wguUVfz/nz50vr1q1NE6hLqVKl5NlnnzW1aFo75klrvDyb4PS90uc5dOhQrl0ncKvRZAZYRL/stR9NyZIls92fkpLita5NV1lpaMna3+hGA1F217V58+arhoms13Wjzp49ax4LFSp01WO0mapVq1ZSuXJlqV69umnO0mH7NWvW/ENluxod4eYZSJSeW3n2u8pp2vdHmyg12Galow+1ie/IkSNeTaJZPwf6GVB/5HMA+BsCEWAR/bLTMDR16tRs92cNJNr/JjueHX+z61CttAYhO9mNKNPr0lor7c+SHVdQuFlbt241j9pR+2oeeOAB2bdvn3z77bemBuXzzz+X999/X5KTk02/ouuRE6PlPN3oa5tbrudzAAQ6AhFgER39pM0xDRo0yLEvb1dtgY4S02YnlxtpTtHr0locbSLLaRoevvjiC8mfP78Z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",
+      "text/plain": [
+       "<Figure size 640x480 with 1 Axes>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "import matplotlib.pyplot as plt\n",
+    "\n",
+    "plt.hist(df[\"tenure\"], bins=20)\n",
+    "plt.xlabel(\"tenure\")\n",
+    "plt.ylabel(\"Frequency\")\n",
+    "plt.title(\"Tenure Distribution\")\n",
+    "plt.show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "id": "a7bce995-fd34-4fa5-9c3c-6c7af96a7593",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "image/png": "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6tXlNHLkyHTCCSeko48+Oi1dujTdcccdac2aNenjH/94v++94YYb0ogRI9LDDz+cLrvssvTNb34zLVq06L/+Gy688MI0f/789OSTT6ajjjqqxMGNN96YrrzyyvT444+n888/P82cObOEDNA8Ogb7DwD2XFdXVxo6dGjad999y16A7Nvf/naJg0svvbT3637605+m8ePHp2XLlqVp06aVz+WN+dy5c8vHU6dOTT/84Q/T3Xffnd73vvf9V39DDoue79myZUv5vXfddVcJl2zKlCllz8JVV12VZsyYYXFDkxAIUDN//etf0+LFi8vhhZ0988wz/QKhr7Fjx6a1a9f+17/v2GOP7f14+fLl6eWXXw6RsXXr1hItQPMQCFAzL730Ujr11FPTd77znXBdjoAeQ4YM6Xddnk+Q5w9k7e3tvRMPe2zbtm2Xvy8fpuj7u7Pf//736eCDD+73dXmOAtA8BAI0uXyIYfv27b2XjznmmPTrX/86TZo0KXV07Nm/+IEHHljO85yGnkf+fScsvpLDDz+8hMCqVascToAmJxCgyeUQyBMN8zMP8mGF2bNnp2uuuSZ98pOf7H2WQt71v3DhwnTttdemffbZ5zV/Zn72wbve9a4y+TA/GyEfevja1772mt+XJ0h+8YtfLBMT896I448/Pq1fvz498MADadSoUWnWrFl7adTA682zGKDJ5Q1y3ujnR+/5kX8+3p83yHmvwsknn5yOPPLI8kJKo0eP7j10sDvyxMb8ugb5KYz5+/Pkx93xrW99K1100UXl2QyHHXZY+sAHPlAOOeTQAJpHW9X3ICMAgD0IAMCuOMQAAAQCAQAIBAIAEAgEACAQCABAIBAAgEAgAACBQAAAAoEAAAQCAQBIO/t/64KquNivXmEAAAAASUVORK5CYII=",
+      "text/plain": [
+       "<Figure size 640x480 with 1 Axes>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "import seaborn as sns\n",
+    "import matplotlib.pyplot as plt\n",
+    "\n",
+    "sns.boxplot(x=df[\"tenure\"])\n",
+    "plt.show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "id": "32ed3906-8b3b-4bb0-92b1-01b87d74a015",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Q1: 9.0\n",
+      "Q3: 55.0\n",
+      "IQR: 46.0\n",
+      "Lower Bound: -60.0\n",
+      "Upper Bound: 124.0\n"
+     ]
+    }
+   ],
+   "source": [
+    "Q1 = df[\"tenure\"].quantile(0.25)\n",
+    "Q3 = df[\"tenure\"].quantile(0.75)\n",
+    "\n",
+    "IQR = Q3 - Q1\n",
+    "\n",
+    "lower_bound = Q1 - 1.5 * IQR\n",
+    "upper_bound = Q3 + 1.5 * IQR\n",
+    "\n",
+    "print(\"Q1:\", Q1)\n",
+    "print(\"Q3:\", Q3)\n",
+    "print(\"IQR:\", IQR)\n",
+    "print(\"Lower Bound:\", lower_bound)\n",
+    "print(\"Upper Bound:\", upper_bound)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "id": "89d2a608-8565-48d2-b681-20c1e0bb182a",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Number of Outliers: 0\n"
+     ]
+    }
+   ],
+   "source": [
+    "outliers = df[\n",
+    "    (df[\"tenure\"] < lower_bound) |\n",
+    "    (df[\"tenure\"] > upper_bound)\n",
+    "]\n",
+    "\n",
+    "print(\"Number of Outliers:\", len(outliers))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "id": "27b12664-203e-4302-bbd1-8aa230316ae5",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "np.float64(-0.22052443394398033)"
+      ]
+     },
+     "execution_count": 15,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df[\"MonthlyCharges\"].describe()\n",
+    "df[\"MonthlyCharges\"].skew()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "id": "d888fdef-54a1-40b2-9613-9dc5d36024d5",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "image/png": "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ujTG7777bjrzzDPLe8aGG25Yphk+fHj5S8bNPcatNhAeffTRsvD/61//mu6///4ySHvvvXd65513atOcdtpp6Z577kljx44t0+cBO+igg1p0vtuqCRMmpKuvvjrtuOOODa43xmvurbfeSsOGDUudO3dO48ePT5MnT06XXHJJ2nTTTWvTXHTRRenyyy9PV111VXryySfLG8E+++xTAo3G+clPfpKuvPLK9POf/zxNmTKl/JzH9Wc/+5lxXgP5PXennXZKV1xxxQpvb8xrNy+4nnvuufJefu+995YF4nHHHeel3YgxXrBgQXr66adL/ObLcePGlQ/LBxxwQIPpmmWMqzZi9uzZ+WNA9eijj5af33777apz587V2LFja9NMmTKlTPPEE0+04Jy2PfPmzau23Xbb6v7776/22GOP6pRTTinXG+OmceaZZ1a77777e96+bNmyaosttqguvvji2nV57Lt06VLddtttTTQX7d/+++9fHX300Q2uO+igg6rDDjusfG+c11x+f73zzjtrPzdmTCdPnlzuN2HChNo048ePrzp06FC99tprTTBX7XuMV+Rvf/tbmW769OnNOsatdg3C8ubMmVMue/bsWS6feuqpslYhr86qM3DgwNSvX7/0xBNPtNh8tkV5Tc3+++/fYCwzY9w07r777vSJT3wiffWrXy2bywYPHpyuvfba2u3Tpk1L//73vxuMf/476UOGDPFaXgW77bZbevDBB9MLL7xQfn7mmWfS448/nr7whS8Y52bSmNduvsyrvPP/gTp5+nw+n7zGgdVbHuZNEXlcm3OMV/tkTWtTPnNk3i6eV9Nuv/325br8olx//fVrA1SnV69e5TYa5/bbby+rrfImhuUZ46YxderUsup75MiR6fvf/34Z65NPPrm8fo888sja6zW/duvzWl41Z511VjnTXf6gsN5665V9EkaPHl1Wvda9no1z02rMmObLHMb1derUqXzY81696vKmm7xPwqGHHlo7WVNzjXGntvIJ95///Gf5NEDTyacLPeWUU8o2q65duxraZgzcXPY//vGPy895DUJ+PedttjkQaBq//e1v0y233JJuvfXWtN1226VJkyaVDxZ5py7jTHvw7rvvpkMOOaTsGJo/dDS3Vr+J4Tvf+U7Z4eLhhx9ucHrpLbbYIi1ZsiS9/fbbDabPRzHk21i5vAlh9uzZaeeddy61mb/yzp55h6P8ff4UYIzXXN67+2Mf+1iD6wYNGpRmzJhRey3XvXa9llffGWecUdYifP3rXy97fB9xxBFlJ9t8RJRxbh6Nee3my/w+U9///ve/ste99+pVj4Pp06eXD3X1T/XcXGPcagMhF1KOgzvvvDM99NBD5dCl+nbZZZeyV3je5lgn79mZ33SHDh3aAnPc9uy5557pH//4R/mkVfeVP+nmVbJ13xvjNZc3jS1/iG7eTr7VVluV7/NrO/8nrv9azqvK87ZDr+XGy3t7522u9eVNDXkNjnFuHo157ebL/EEufyCpk9/T879L3leBxsdBPnz0gQceKIdL19dsY1y1UiNGjKh69OhRPfLII9Xrr79e+1qwYEFtmuOPP77q169f9dBDD1UTJ06shg4dWr5YffWPYjDGTSPvcdypU6dq9OjR1Ysvvljdcsst1QYbbFDdfPPNtWkuvPDCapNNNql+//vfV88++2z1pS99qerfv3+1cOHCJpqL9u/II4+sPvShD1X33ntvNW3atGrcuHHVZpttVn3ve9+rTWOcV+8op7///e/lKy8yLr300vJ93R70jRnTfffdtxo8eHD15JNPVo8//ng5aurQQw9tkn/39j7GS5YsqQ444ICqT58+1aRJkxosDxcvXtysY9xqAyEP0oq+rr/++to0+QV4wgknVJtuuml5wz3wwAPLoNF0gWCMm8Y999xTbb/99uXwr4EDB1bXXHNNg9vz4WLnnntu1atXrzLNnnvuWT3//PNN9Ozrhrlz55bXbv7Q0LVr12rrrbeuzjnnnAZvosZ51T388MMrfC/OQdbYMX3jjTfKwmqjjTaqNt544+qoo44qC0VWPsY5dt9reZjv15xj7HTPAEDb2QcBAGg5AgEACAQCABAIBAAgEAgAQCAQAIBAIAAAgUAAAAKBAO1APjf8XXfd9Z63P/LII2Wa5U9utqZuuOGGcMp1oH0QCLAGvvnNb5YF7/HHH7/C05Tn2/I0TeWHP/xh+vjHP57WlnwW1f3226+cHGaDDTYoZ6U8/fTT02uvvbbW5gFoGQIB1lDfvn3T7bffnhYuXFi7btGiRenWW29N/fr1a7Pje/XVV6e99tqrnK3vjjvuSJMnT05XXXVVmjNnTrrkkkua/ex1QMsSCLCGdt555xIJ48aNq12Xv89xMHjw4Np1ixcvTieffHLafPPNU9euXdPuu++eJkyYEDYD5FPn5lNt50/su+22W+1U0Xl1/qhRo9IzzzxTpstf+bo6//3vf9OBBx5Y7rftttumu+++e4Xz+84775Rzyf/ud79rcH3eRLHhhhumefPmpX/9619lXvPXddddlz7zmc+kD3/4w+nTn/50+uUvf5nOO++8Bvf94x//mAYNGpQ22mijtO+++6bXX3+9dlv+HT//+c+nzTbbLPXo0SPtscce6emnn25w//y7XHnllemAAw4o8zB69Ohy/Y9+9KMyXt27d0/f+ta30llnnRXWoOT5yc+dx3TgwIHpF7/4Re22JUuWlNPGb7nlluX2fIrtMWPGrPTfFGjFp3uGtiCfbS2f3jafnjWfxa5O/v6yyy4rt9Wd9e7kk0+uevfuXd13333Vc889V67PZyLNZ2Grf0a3IUOGlNOc52k+9alPVbvttlu5PZ/q/PTTT6+22267cPrzfL98Othbb721nFI6P1c+q9vyj/3WW2+Vn4899thqv/32a/C75FPKDh8+vHyff588/cyZM9/3989nV+3cuXO11157VRMmTKieeuqpatCgQdU3vvGN2jQPPvhgddNNN1VTpkypJk+eXB1zzDHlzH/57It18nNtvvnm1XXXXVe9/PLL5TS3+XTY+ayM+bp8dsBRo0aVs9TttNNOtfvlabbccsvqjjvuqKZOnVoue/bsWd1www3l9osvvrjq27dv9dhjj1WvvPJK9ec//7mMEbByAgGaIBBmz55dTnWbF0L5Ky/Y/vOf/9QCYf78+WVBesstt9Tum8/znoPhoosuarAQf+CBB2rT/OEPfyjX5dNuZ+eff36DBWTtP3JK1Q9+8IPaz/n58nXjx49fYSDkc8avt956tQCYNWtW1alTpxIm2YgRI8rCeGVyIOTHfemll2rXXXHFFSUA3svSpUur7t27l1Ng15//U089tcF0OZROPPHEBtcNGzaswe+/zTbbhAX+BRdcUA0dOrR8f9JJJ1Wf+9znyimJgVVjEwM0gQ9+8INp//33L6v8r7/++vJ9XqVe5+WXXy7b1YcNG1a7rnPnzumTn/xkmjJlSoPH2nHHHWvf51Xj2ezZs1c6D/Xvl1fT580I73W//Lzbbbdd+vWvf11+vvnmm8vq97wJIcvL7LzavzHyJo1tttmmwTzXf95Zs2alY489tmz2yJsY8nzNnz8/zZgxo8Hj5M0q9eVNK3k+l5/v+ptK8rgec8wxZdNG3VfeLJGvz/IOopMmTUof/ehHy+aSP/3pT436nYCUOhkEaBpHH3102d6dXXHFFav9ODkc6tQtpJctW7ZK96u77/vdL2/Tz/OZt+vnqDnqqKNqzzdgwICyM2Lel6AuUlblef9/pcD/O/LII9Mbb7yRfvrTn5YI6dKlSxo6dGjZP6C+HDWrIkdGdu2116YhQ4Y0uG299dar7R8ybdq0NH78+PTAAw+kQw45pOx4ufz+F0BkDQI0kbxzXl7o5TUF++yzT4Pb8ifs9ddfP/3lL3+pXZenyzvw5UMHGys/xtKlS5tkfg8//PA0ffr0dPnll5cjFPKCvM5XvvKV8lwXXXTRCu+7Kn9PIf/O+dN7Plwyr7XIgZB3qFyZ/Km//k6cWf2fe/XqlXr37p2mTp2aPvKRjzT46t+/f226vMbia1/7WgmJ3/zmN+WIjDfffLPR8w/rKmsQoInkT611mwvqPsHW/3Q8YsSIdMYZZ6SePXuWIxzywnfBggVlFXlj5SMJ8ifivNq8T58+Ze/+vMBdHZtuumk66KCDyjztvffe5fHq5KMyLrvssrJGZO7cuWn48OHlufPRDTfeeGNZld/YQx3zpoWbbrqpbELIj5Wfr1u3biu930knnVQ2TeT75aM58sL92WefTVtvvXVtmnxUR46PvOkiB1o+UmTixInprbfeSiNHjkyXXnppWQOSjybp2LFjGjt2bDls0x93gpWzBgGaUP60mr9W5MILL0wHH3xwOuKII8qq75deeqkcHpgX1I2V758XhJ/97GfLfg+33XbbGs1vjpO81iNvHlneCSecULbZ5z+KlA+fzIcQ5s0S+ff77ne/2+jn+NWvflUW2Pl3zr973aGeK3PYYYels88+uzxX3aaCvE9BPlyxTp6ffJhj3kSyww47lEMo834gdWsQckDlEMuRseuuu6ZXXnkl3XfffSUWgPfXIe+puJJpgHYqf7I/7bTT0syZM8smhdYu/z2FvAYgzzfQvGxigHVQ3rSRd0DMazW+/e1vt8o4yPOY/3Jj3p8jb7LJa0vyjob3339/S88arBOsZ4N1UF7tnjcZ5E/jeTV+a5SPhsibA/Khl7vssku65557yg6G+SgEoPnZxAAABNYgAACBQAAAAoEAAAQCAQAIBAIAEAgEACAQCABAIBAAgLS8/wNvurLkCsBCoQAAAABJRU5ErkJggg==",
+      "text/plain": [
+       "<Figure size 640x480 with 1 Axes>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "sns.boxplot(x=df[\"MonthlyCharges\"])\n",
+    "plt.show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "id": "f776b1bb-e10a-4426-8c38-faebb7337548",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Number of Outliers: 0\n"
+     ]
+    }
+   ],
+   "source": [
+    "Q1 = df[\"MonthlyCharges\"].quantile(0.25)\n",
+    "Q3 = df[\"MonthlyCharges\"].quantile(0.75)\n",
+    "\n",
+    "IQR = Q3 - Q1\n",
+    "\n",
+    "lower_bound = Q1 - 1.5 * IQR\n",
+    "upper_bound = Q3 + 1.5 * IQR\n",
+    "\n",
+    "outliers = df[\n",
+    "    (df[\"MonthlyCharges\"] < lower_bound) |\n",
+    "    (df[\"MonthlyCharges\"] > upper_bound)\n",
+    "]\n",
+    "\n",
+    "print(\"Number of Outliers:\", len(outliers))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "id": "5920d207-8c36-46cb-b486-34bac6adb974",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "dtype('float64')"
+      ]
+     },
+     "execution_count": 18,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df[\"TotalCharges\"].dtype"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "id": "2b4b5871-5178-4b01-aef2-2731f63fa31b",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "count    7043.000000\n",
+       "mean     2279.734304\n",
+       "std      2266.794470\n",
+       "min         0.000000\n",
+       "25%       398.550000\n",
+       "50%      1394.550000\n",
+       "75%      3786.600000\n",
+       "max      8684.800000\n",
+       "Name: TotalCharges, dtype: float64"
+      ]
+     },
+     "execution_count": 19,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df[\"TotalCharges\"].describe()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 20,
+   "id": "090a1957-0bcd-438c-8a82-2a187de7c158",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "np.float64(0.963234654832277)"
+      ]
+     },
+     "execution_count": 20,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df[\"TotalCharges\"].skew()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 21,
+   "id": "5a2e5beb-d198-495e-bf0d-7244e6ccb9fb",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "image/png": "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alR655136qZ5/PHH0xe+8IXyWpg/3e/MM89ss99xVbV48eJ08sknp0033bT87QcNGpROP/30umMOmD8tUDWQq666qurevXs1YcKE6sknn6wOP/zwau21165mz57d3g+tQxkxYkR16aWXVk888UT16KOPVvvss081cODA6p133mma5kc/+lE1YMCA6vbbb68eeuih6nOf+1w1bNiwpus/+OCDaptttqmGDx9eTZ06tbrxxhurvn37VmPHjm2aZvr06dUaa6xRjR49unrqqaeqP/zhD1WXLl2qm2++uc1/51XRgw8+WG2yySbVZz7zmeq4445ruty8aT9vvfVWtfHGG1eHHXZY9cADD5T/8VtuuaV6/vnnm6Y544wzqj59+lTXXXdd9dhjj1X77bdftemmm1YLFixommavvfaqtttuu+rf//53de+991aDBw+uvvOd7zRdP3fu3Kpfv37VwQcfXJ6nkydPrnr16lVddNFFbf47r0rGjRtXrbfeetUNN9xQzZgxo7r66qurNddcszrnnHOapjF/VlxDBcIuu+xSHX300U3nFy9eXPXv378aP358uz6uju7111/PeV3dfffd5fycOXOqbt26lSdXzdNPP12muf/++8v5HASdO3euXnvttaZpLrjggmqttdaqFi1aVM7/7Gc/q7beeuu6+zrooINKoLB88+fPrzbffPPq1ltvrfbYY4+mQDBv2tfPf/7z6vOf//wyr1+yZEm1wQYbVGeddVbTZXme9ejRoyzksxzL+bk0ZcqUpmluuummqlOnTtUrr7xSzp9//vnVOuus0/Rcqt33Flts8TH9Zh3DvvvuW/3gBz+ou+zAAw8soZWZPy3TMJsY3nvvvfTwww+X1XHNj/eQz99///3t+tg6urlz55bTddddt5zm+fD+++/XzYstt9wyDRw4sGle5NO8arVfv35N04wYMaIc7OTJJ59smqb5bdSmMT8/Wt68kzfffPjvZ960r+uvvz7ttNNO6Zvf/GbZrLbDDjukSy65pOn6GTNmpNdee61uvuXPvM+bS5s/d/JmhXw7NXn6/Hr3wAMPNE2z++67p+7du9c9d/KmwLfffruNfttVz7Bhw9Ltt9+enn322XL+scceS/fdd1/ae++9y3nzp2VW+mBNre2NN94o24+aL3CyfP6ZZ55pt8fV0eWjcubt27vttlvaZpttymX5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",
+      "text/plain": [
+       "<Figure size 640x480 with 1 Axes>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "sns.boxplot(x=df[\"TotalCharges\"])\n",
+    "plt.show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 22,
+   "id": "2fbb7168-0d86-411a-8327-8483aae60a59",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Number of Outliers: 0\n"
+     ]
+    }
+   ],
+   "source": [
+    "Q1 = df[\"TotalCharges\"].quantile(0.25)\n",
+    "Q3 = df[\"TotalCharges\"].quantile(0.75)\n",
+    "\n",
+    "IQR = Q3 - Q1\n",
+    "\n",
+    "lower_bound = Q1 - 1.5 * IQR\n",
+    "upper_bound = Q3 + 1.5 * IQR\n",
+    "\n",
+    "outliers = df[\n",
+    "    (df[\"TotalCharges\"] < lower_bound) |\n",
+    "    (df[\"TotalCharges\"] > upper_bound)\n",
+    "]\n",
+    "\n",
+    "print(\"Number of Outliers:\", len(outliers))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 23,
+   "id": "11a85ce7-d187-4442-ba12-583bda25e000",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "C:\\Users\\hp\\AppData\\Local\\Temp\\ipykernel_26928\\1115346021.py:1: Pandas4Warning: For backward compatibility, 'str' dtypes are included by select_dtypes when 'object' dtype is specified. This behavior is deprecated and will be removed in a future version. Explicitly pass 'str' to `include` to select them, or to `exclude` to remove them and silence this warning.\n",
+      "See https://pandas.pydata.org/docs/user_guide/migration-3-strings.html#string-migration-select-dtypes for details on how to write code that works with pandas 2 and 3.\n",
+      "  categorical_cols = df.select_dtypes(include=[\"object\"]).columns\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "Index(['gender', 'Partner', 'Dependents', 'PhoneService', 'MultipleLines',\n",
+       "       'InternetService', 'OnlineSecurity', 'OnlineBackup', 'DeviceProtection',\n",
+       "       'TechSupport', 'StreamingTV', 'StreamingMovies', 'Contract',\n",
+       "       'PaperlessBilling', 'PaymentMethod', 'Churn'],\n",
+       "      dtype='str')"
+      ]
+     },
+     "execution_count": 23,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "categorical_cols = df.select_dtypes(include=[\"object\"]).columns\n",
+    "categorical_cols"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 24,
+   "id": "b7a906f1-2b24-40b5-9bb6-9a50c0c83da3",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "==================================================\n",
+      "Column: gender\n",
+      "<StringArray>\n",
+      "['Female', 'Male']\n",
+      "Length: 2, dtype: str\n",
+      "Unique Count: 2\n",
+      "==================================================\n",
+      "Column: Partner\n",
+      "<StringArray>\n",
+      "['Yes', 'No']\n",
+      "Length: 2, dtype: str\n",
+      "Unique Count: 2\n",
+      "==================================================\n",
+      "Column: Dependents\n",
+      "<StringArray>\n",
+      "['No', 'Yes']\n",
+      "Length: 2, dtype: str\n",
+      "Unique Count: 2\n",
+      "==================================================\n",
+      "Column: PhoneService\n",
+      "<StringArray>\n",
+      "['No', 'Yes']\n",
+      "Length: 2, dtype: str\n",
+      "Unique Count: 2\n",
+      "==================================================\n",
+      "Column: MultipleLines\n",
+      "<StringArray>\n",
+      "['No phone service', 'No', 'Yes']\n",
+      "Length: 3, dtype: str\n",
+      "Unique Count: 3\n",
+      "==================================================\n",
+      "Column: InternetService\n",
+      "<StringArray>\n",
+      "['DSL', 'Fiber optic', 'No']\n",
+      "Length: 3, dtype: str\n",
+      "Unique Count: 3\n",
+      "==================================================\n",
+      "Column: OnlineSecurity\n",
+      "<StringArray>\n",
+      "['No', 'Yes', 'No internet service']\n",
+      "Length: 3, dtype: str\n",
+      "Unique Count: 3\n",
+      "==================================================\n",
+      "Column: OnlineBackup\n",
+      "<StringArray>\n",
+      "['Yes', 'No', 'No internet service']\n",
+      "Length: 3, dtype: str\n",
+      "Unique Count: 3\n",
+      "==================================================\n",
+      "Column: DeviceProtection\n",
+      "<StringArray>\n",
+      "['No', 'Yes', 'No internet service']\n",
+      "Length: 3, dtype: str\n",
+      "Unique Count: 3\n",
+      "==================================================\n",
+      "Column: TechSupport\n",
+      "<StringArray>\n",
+      "['No', 'Yes', 'No internet service']\n",
+      "Length: 3, dtype: str\n",
+      "Unique Count: 3\n",
+      "==================================================\n",
+      "Column: StreamingTV\n",
+      "<StringArray>\n",
+      "['No', 'Yes', 'No internet service']\n",
+      "Length: 3, dtype: str\n",
+      "Unique Count: 3\n",
+      "==================================================\n",
+      "Column: StreamingMovies\n",
+      "<StringArray>\n",
+      "['No', 'Yes', 'No internet service']\n",
+      "Length: 3, dtype: str\n",
+      "Unique Count: 3\n",
+      "==================================================\n",
+      "Column: Contract\n",
+      "<StringArray>\n",
+      "['Month-to-month', 'One year', 'Two year']\n",
+      "Length: 3, dtype: str\n",
+      "Unique Count: 3\n",
+      "==================================================\n",
+      "Column: PaperlessBilling\n",
+      "<StringArray>\n",
+      "['Yes', 'No']\n",
+      "Length: 2, dtype: str\n",
+      "Unique Count: 2\n",
+      "==================================================\n",
+      "Column: PaymentMethod\n",
+      "<StringArray>\n",
+      "[         'Electronic check',              'Mailed check',\n",
+      " 'Bank transfer (automatic)',   'Credit card (automatic)']\n",
+      "Length: 4, dtype: str\n",
+      "Unique Count: 4\n",
+      "==================================================\n",
+      "Column: Churn\n",
+      "<StringArray>\n",
+      "['No', 'Yes']\n",
+      "Length: 2, dtype: str\n",
+      "Unique Count: 2\n"
+     ]
+    }
+   ],
+   "source": [
+    "for col in categorical_cols:\n",
+    "    print(\"=\"*50)\n",
+    "    print(f\"Column: {col}\")\n",
+    "    print(df[col].unique())\n",
+    "    print(\"Unique Count:\", df[col].nunique())"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 25,
+   "id": "f0ecd253-0dc6-4c1c-89d6-bc16fc1acfbd",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "binary_cols = [\n",
+    "    \"gender\",\n",
+    "    \"Partner\",\n",
+    "    \"Dependents\",\n",
+    "    \"PhoneService\",\n",
+    "    \"PaperlessBilling\",\n",
+    "    \"Churn\"\n",
+    "]\n",
+    "multi_cols = [\n",
+    "    \"MultipleLines\",\n",
+    "    \"InternetService\",\n",
+    "    \"OnlineSecurity\",\n",
+    "    \"OnlineBackup\",\n",
+    "    \"DeviceProtection\",\n",
+    "    \"TechSupport\",\n",
+    "    \"StreamingTV\",\n",
+    "    \"StreamingMovies\",\n",
+    "    \"Contract\",\n",
+    "    \"PaymentMethod\"\n",
+    "]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 26,
+   "id": "e009972d-2283-400c-b8fb-69135834745a",
+   "metadata": {},
+   "outputs": [
+    {
+     "ename": "NameError",
+     "evalue": "name 'binary_mapping' is not defined",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[31m---------------------------------------------------\u001b[39m",
+      "\u001b[31mNameError\u001b[39m         Traceback (most recent call last)",
+      "\u001b[36mCell\u001b[39m\u001b[36m \u001b[39m\u001b[32mIn[26]\u001b[39m\u001b[32m, line 2\u001b[39m\n\u001b[32m      1\u001b[39m \u001b[38;5;28;01mfor\u001b[39;00m col \u001b[38;5;28;01min\u001b[39;00m binary_cols:\n\u001b[32m----> \u001b[39m\u001b[32m2\u001b[39m     df[col] = df[col].replace(binary_mapping).astype(\u001b[33m\"int64\"\u001b[39m)\n",
+      "\u001b[31mNameError\u001b[39m: name 'binary_mapping' is not defined"
+     ]
+    }
+   ],
+   "source": [
+    "for col in binary_cols:\n",
+    "    df[col] = df[col].replace(binary_mapping).astype(\"int64\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "d9e066f9-43ce-405c-9e77-5dae0a1f4d7c",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "print(df[[\"gender\",\"Partner\",\"Dependents\",\"PhoneService\",\"PaperlessBilling\"]].dtypes)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "d4e88145-69b7-40e6-a02b-93687efa9e5f",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df[\"Churn\"] = pd.to_numeric(df[\"Churn\"])\n",
+    "\n",
+    "print(df[\"Churn\"].dtype)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "96c7f74f-f9a8-42df-8806-49025e1f85eb",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df = pd.get_dummies(\n",
+    "    df,\n",
+    "    columns=multi_cols,\n",
+    "    drop_first=True,\n",
+    "    dtype=int\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "8e443035-0fd1-44b1-abce-234cb5a54983",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df.shape"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "ae51fe5a-cc1e-4013-b4c7-8c2e45bcb130",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "y = df[\"Churn\"]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "a658b82a-0561-45a3-9e80-b9fab72c249a",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "X = df.drop(\"Churn\", axis=1)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "302fadd5-c03c-4d6d-9a83-00ace9e9bec7",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df[\"Churn\"] = df[\"Churn\"].astype(int)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "567925c4-009f-482f-8bd0-138eb6e971ef",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from sklearn.model_selection import train_test_split\n",
+    "\n",
+    "X_train, X_test, y_train, y_test = train_test_split(\n",
+    "    X,\n",
+    "    y,\n",
+    "    test_size=0.2,\n",
+    "    random_state=42,\n",
+    "    stratify=y\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "cc7648b8-0864-49ca-a681-5aa9452b6e79",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from sklearn.preprocessing import StandardScaler\n",
+    "\n",
+    "scaler = StandardScaler()\n",
+    "\n",
+    "X_train_scaled = scaler.fit_transform(X_train)\n",
+    "X_test_scaled = scaler.transform(X_test)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "c5364b7d-8155-4fbc-be16-54a89dc4ebfa",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "print(\"type(y_train):\", type(y_train))\n",
+    "\n",
+    "print(\"dtype:\", y_train.dtype)\n",
+    "\n",
+    "print(\"unique:\", y_train.unique())\n",
+    "\n",
+    "print(\"value types:\")\n",
+    "for v in y_train.unique():\n",
+    "    print(v, type(v))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "f93644a4-2c55-4956-8027-a897049c13b5",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from sklearn.utils.multiclass import type_of_target\n",
+    "\n",
+    "print(type_of_target(y_train))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "8bd630cb-e386-4b1f-95e3-34c0c0a2e8c6",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "print(y_train.dtype)\n",
+    "print(y_train.head())\n",
+    "print(y_train.unique())"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "398bbdc5-8c66-4666-818c-3c7aae9ac6eb",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "print(df[\"Churn\"].apply(type).value_counts())\n",
+    "\n",
+    "print(df[\"Churn\"].value_counts(dropna=False))\n",
+    "\n",
+    "print(pd.to_numeric(df[\"Churn\"], errors=\"coerce\").isnull().sum())"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "3b590521-79d4-4eb8-b6ea-212751153f31",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "0afba359-8bc3-4ea0-922c-b947cb8a4606",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from sklearn.linear_model import LogisticRegression\n",
+    "\n",
+    "lr = LogisticRegression(random_state=42)\n",
+    "\n",
+    "lr.fit(X_train_scaled, y_train)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "14cc3481-7628-407b-be10-70cb350a19f9",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "y_pred = lr.predict(X_test_scaled)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "cd8f2aa1-a825-43d8-9167-a243f6a87fc3",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from sklearn.metrics import (\n",
+    "    accuracy_score,\n",
+    "    confusion_matrix,\n",
+    "    classification_report\n",
+    ")\n",
+    "\n",
+    "print(\"Accuracy:\", accuracy_score(y_test, y_pred))\n",
+    "\n",
+    "print(confusion_matrix(y_test, y_pred))\n",
+    "\n",
+    "print(classification_report(y_test, y_pred))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "d8b31650-f569-4732-9b15-33c1633b0b05",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from sklearn.metrics import roc_auc_score\n",
+    "\n",
+    "y_prob = lr.predict_proba(X_test_scaled)[:, 1]\n",
+    "\n",
+    "print(\"ROC-AUC:\", roc_auc_score(y_test, y_prob))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "ef9856f9-bbd8-45f6-9f3b-8c437d7e9c06",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "print(df[[\"gender\",\"Partner\",\"Dependents\",\"PhoneService\",\"PaperlessBilling\"]].dtypes)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "8c2c70f9-2a72-4b68-b52d-8afc65660716",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from sklearn.ensemble import RandomForestClassifier\n",
+    "\n",
+    "rf = RandomForestClassifier(\n",
+    "    n_estimators=100,\n",
+    "    random_state=42\n",
+    ")\n",
+    "\n",
+    "rf.fit(X_train, y_train)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "119156b8-8604-4c71-be4d-daf0ad25bf72",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "y_pred_rf = rf.predict(X_test)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "c59ba6bb-29cd-484b-947b-25ccefdeace2",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from sklearn.metrics import (\n",
+    "    accuracy_score,\n",
+    "    classification_report,\n",
+    "    roc_auc_score\n",
+    ")\n",
+    "\n",
+    "print(\"Accuracy:\", accuracy_score(y_test, y_pred_rf))\n",
+    "\n",
+    "print(classification_report(y_test, y_pred_rf))\n",
+    "\n",
+    "print(\n",
+    "    \"ROC-AUC:\",\n",
+    "    roc_auc_score(\n",
+    "        y_test,\n",
+    "        rf.predict_proba(X_test)[:,1]\n",
+    "    )\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "3cb1a0e4-b25b-464e-8657-1e5166a2bbbe",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from xgboost import XGBClassifier\n",
+    "\n",
+    "xgb = XGBClassifier(\n",
+    "    random_state=42\n",
+    ")\n",
+    "\n",
+    "xgb.fit(X_train, y_train)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "0038f47a-c013-43a6-a6d2-9a8006799dac",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from xgboost import XGBClassifier\n",
+    "\n",
+    "xgb = XGBClassifier(\n",
+    "    n_estimators=100,\n",
+    "    max_depth=4,\n",
+    "    learning_rate=0.1,\n",
+    "    random_state=42,\n",
+    "    eval_metric=\"logloss\"\n",
+    ")\n",
+    "\n",
+    "xgb.fit(X_train, y_train)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "bf3699e6-eb99-466b-9fb5-1c1becd231a9",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "print(df[[\"gender\",\"Partner\",\"Dependents\",\"PhoneService\",\"PaperlessBilling\"]].dtypes)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "2d690ca1-8c02-4d01-9dce-37b127986d90",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "y_pred_xgb = xgb.predict(X_test)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "940aa89e-6b25-46ab-b21c-08758c8010dc",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from sklearn.metrics import (\n",
+    "    accuracy_score,\n",
+    "    classification_report,\n",
+    "    roc_auc_score,\n",
+    "    confusion_matrix\n",
+    ")\n",
+    "\n",
+    "print(\"Accuracy:\", accuracy_score(y_test, y_pred_xgb))\n",
+    "\n",
+    "print(\"\\nConfusion Matrix:\")\n",
+    "print(confusion_matrix(y_test, y_pred_xgb))\n",
+    "\n",
+    "print(\"\\nClassification Report:\")\n",
+    "print(classification_report(y_test, y_pred_xgb))\n",
+    "\n",
+    "print(\n",
+    "    \"\\nROC-AUC:\",\n",
+    "    roc_auc_score(\n",
+    "        y_test,\n",
+    "        xgb.predict_proba(X_test)[:, 1]\n",
+    "    )\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "3c0f49a0-fbb7-486a-8736-524d682402fa",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import pickle\n",
+    "\n",
+    "with open(\"churn_model.pkl\", \"wb\") as file:\n",
+    "    pickle.dump(xgb_model, file)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "afadf0f4-f1e0-40ee-8f0a-b65ba1f82052",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.13.2"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
