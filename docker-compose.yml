@@ -1,0 +1,35 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      # Mount SQLite database for data persistence
+      - ./churn.db:/workspace/churn.db
+      # Mount backend folder for hot reloading during development
+      - ./app:/workspace/app
+    environment:
+      - PYTHONUNBUFFERED=1
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      # To run in production mode (using Nginx), comment out the 'target' line below
+      target: dev
+      args:
+        - VITE_API_URL=http://localhost:8000
+    ports:
+      # For 'dev' target, maps 5173. For 'prod' (Nginx), change this port to "80:80" or "8080:80"
+      - "5173:5173"
+    volumes:
+      # Mount frontend code for hot reloading
+      - ./frontend:/app
+      # Exclude node_modules from being overwritten by local host files
+      - /app/node_modules
+    environment:
+      - VITE_API_URL=http://localhost:8000
+    depends_on:
+      - backend
